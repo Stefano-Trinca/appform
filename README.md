@@ -1,39 +1,80 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# AppForm
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+AppForm is a Flutter package designed to simplify form handling and validation within the Flutter_Bloc architecture. By leveraging custom form field classes and comprehensive state management through Flutter_Bloc, AppForm provides a streamlined way to implement complex forms with validation logic.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- **Custom Form Fields**: Extendable form field classes to encapsulate validation logic and state management.
+- **Bloc Integration**: Seamless integration with Flutter_Bloc to manage form states and submissions.
+- **Extensible Validators**: Utilize built-in validators or create custom validators to meet your form requirements.
 
-## Getting started
+## Getting Started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+To start using the AppForm package, add it to your project by including the following in your `pubspec.yaml` file:
 
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+```yaml
+appform:
+  git:
+    url: https://github.com/Stefano-Trinca/appform.git
+    ref: 0.0.1
 ```
 
-## Additional information
+Replace `[nome-utente]` with your GitHub username.
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+## Example Usage
+
+Here is a simple example demonstrating how to use AppForm with Flutter_Bloc:
+
+```dart
+import 'package:appform/appform.dart';
+
+class MyFormPage extends StatelessWidget {
+  const MyFormPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => MyFormCubit(),
+      child: Scaffold(
+        body: MyForm(),
+      ),
+    );
+  }
+}
+
+class MyForm extends StatelessWidget {
+  const MyForm({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<MyFormCubit, MyFormState>(
+      buildWhen: (previous, current) => previous != current,
+      builder: (context, state) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppFormFieldString(
+              field: state.nameField,
+              hintText: 'Name',
+            ),
+            // More fields can be added here
+            ElevatedButton(
+              onPressed: () => context.read<MyFormCubit>().submit(),
+              child: Text('Submit'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+```
+
+## Documentation
+
+For further details on how to implement and extend AppForm, please refer to the full documentation available at [GitHub repository](https://github.com/Stefano-Trinca/appform).
+
+## License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.

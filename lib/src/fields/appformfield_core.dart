@@ -1,6 +1,7 @@
+import 'package:appform/src/state/state_status.dart';
 import 'package:flutter/widgets.dart';
-import 'package:formz/formz.dart';
 
+import '../core/appform_core.dart';
 import '../validators/formvalidator.dart';
 
 ///AppFormFieldBase
@@ -8,33 +9,31 @@ import '../validators/formvalidator.dart';
 /// this is the base for the for field
 ///
 /// contain all base function and controller
-abstract class AppFormFieldBase<T, S extends AppFormFieldBase<T, S>>
-    extends FormzInput<T?, String> {
+abstract class AppFormFieldCore<T, S extends AppFormFieldCore<T, S>>
+    extends AppFormInstance<T?, String> {
   final Key? key;
   late final List<FormValidator<T>> validators;
   late final TextEditingController controller;
   late final String Function(T? value)? asString;
 
-  AppFormFieldBase.init({
+  AppFormFieldCore.init({
     this.key,
     List<FormValidator<T>>? validators,
     T? value,
     TextEditingController? controller,
-    String Function(T? value)? asString,
+    this.asString,
   })  : validators = validators ?? <FormValidator<T>>[],
-        asString = asString,
         controller = controller ??
             TextEditingController(text: asString?.call(value) ?? value?.toString() ?? ''),
         super.pure(value);
 
-  AppFormFieldBase.dirty({
+  AppFormFieldCore.dirty({
     this.key,
     List<FormValidator<T>>? validators,
     T? value,
     TextEditingController? controller,
-    String Function(T? value)? asString,
+    this.asString,
   })  : validators = validators ?? <FormValidator<T>>[],
-        asString = asString,
         controller = controller ??
             TextEditingController(text: asString?.call(value) ?? value?.toString() ?? ''),
         super.dirty(value);
@@ -55,13 +54,20 @@ abstract class AppFormFieldBase<T, S extends AppFormFieldBase<T, S>>
     return null;
   }
 
-  String? get errorMessage => status == FormzInputStatus.invalid ? error : null;
+  String? get errorMessage => status.isInvalid ? error : null;
 
   @override
   bool operator ==(Object other) =>
-      super.value == (other as AppFormFieldBase).value &&
-      validators == other.validators &&
-      super.status == other.status &&
-      controller.value == other.controller.value &&
-      super.error == other.error;
+      identical(this, other) ||
+      super == other &&
+          other is AppFormFieldCore &&
+          runtimeType == other.runtimeType &&
+          key == other.key &&
+          validators == other.validators &&
+          controller == other.controller &&
+          asString == other.asString;
+
+  @override
+  int get hashCode =>
+      super.hashCode ^ key.hashCode ^ validators.hashCode ^ controller.hashCode ^ asString.hashCode;
 }

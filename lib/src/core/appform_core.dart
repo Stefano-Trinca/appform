@@ -1,57 +1,61 @@
 
 
-abstract class FormzInput<T, E> {
-  const FormzInput._(this.value, [this.pure = true]);
+import 'package:flutter/cupertino.dart';
 
-  /// Constructor which create a `pure` [FormzInput] with a given value.
-  const FormzInput.pure(T value) : this._(value);
+import '../state/state_status.dart';
 
-  /// Constructor which create a `dirty` [FormzInput] with a given value.
-  const FormzInput.dirty(T value) : this._(value, false);
+abstract class AppFormInstance<T, E> {
+  const AppFormInstance._(this.value, [this.pure = true]);
 
-  /// The value of the given [FormzInput].
-  /// For example, if you have a `FormzInput` for `FirstName`,
+  /// Constructor which create a `pure` [AppFormInstance] with a given value.
+  AppFormInstance.pure(T value) : this._(ValueNotifier<T>(value));
+
+  /// Constructor which create a `dirty` [AppFormInstance] with a given value.
+  AppFormInstance.dirty(T value) : this._(ValueNotifier<T>(value), false);
+
+  /// The value of the given [AppFormInstance].
+  /// For example, if you have a `AppFormInstance` for `FirstName`,
   /// the value could be 'Joe'.
-  final T value;
+  final ValueNotifier<T> value;
 
-  /// If the [FormzInput] is pure (has been touched/modified).
-  /// Typically when the `FormzInput` is initially created,
-  /// it is created using the `FormzInput.pure` constructor to
+  /// If the [AppFormInstance] is pure (has been touched/modified).
+  /// Typically when the `AppFormInstance` is initially created,
+  /// it is created using the `AppFormInstance.pure` constructor to
   /// signify that the user has not modified it.
   ///
   /// For subsequent changes (in response to user input), the
-  /// `FormzInput.dirty` constructor should be used to signify that
-  /// the `FormzInput` has been manipulated.
+  /// `AppFormInstance.dirty` constructor should be used to signify that
+  /// the `AppFormInstance` has been manipulated.
   final bool pure;
 
-  /// The [FormzInputStatus] which can be one of the following:
-  /// * [FormzInputStatus.pure]
+  /// The [StateStatus] which can be one of the following:
+  /// * [StateStatus.pure]
   ///   - if the input has not been modified.
-  /// * [FormzInputStatus.invalid]
+  /// * [StateStatus.invalid]
   ///   - if the input has been modified and validation failed.
-  /// * [FormzInputStatus.valid]
+  /// * [StateStatus.valid]
   ///   - if the input has been modified and validation succeeded.
-  FormzInputStatus get status => pure
-      ? FormzInputStatus.pure
+  StateStatus get status => pure
+      ? StateStatus.pure
       : valid
-      ? FormzInputStatus.valid
-      : FormzInputStatus.invalid;
+      ? StateStatus.valid
+      : StateStatus.invalid;
 
-  /// Returns a validation error if the [FormzInput] is invalid.
-  /// Returns `null` if the [FormzInput] is valid.
-  E? get error => validator(value);
+  /// Returns a validation error if the [AppFormInstance] is invalid.
+  /// Returns `null` if the [AppFormInstance] is valid.
+  E? get error => validator(value.value);
 
-  /// Whether the [FormzInput] value is valid according to the
+  /// Whether the [AppFormInstance] value is valid according to the
   /// overridden `validator`.
   ///
   /// Returns `true` if `validator` returns `null` for the
-  /// current [FormzInput] value and `false` otherwise.
-  bool get valid => validator(value) == null;
+  /// current [AppFormInstance] value and `false` otherwise.
+  bool get valid => validator(value.value) == null;
 
-  /// Whether the [FormzInput] value is not valid.
+  /// Whether the [AppFormInstance] value is not valid.
   /// A value is invalid when the overridden `validator`
   /// returns an error (non-null value).
-  bool get invalid => status == FormzInputStatus.invalid;
+  bool get invalid => status == StateStatus.invalid;
 
   /// A function that must return a validation error if the provided
   /// [value] is invalid and `null` otherwise.
@@ -63,7 +67,7 @@ abstract class FormzInput<T, E> {
   @override
   bool operator ==(Object other) {
     if (other.runtimeType != runtimeType) return false;
-    return other is FormzInput<T, E> &&
+    return other is AppFormInstance<T, E> &&
         other.value == value &&
         other.pure == pure;
   }
@@ -73,26 +77,26 @@ abstract class FormzInput<T, E> {
 }
 
 /// Class which contains methods that help manipulate and manage
-/// [FormzStatus] and [FormzInputStatus] instances.
-class Formz {
-  /// Returns a [FormzStatus] given a list of [FormzInput].
-  static FormzStatus validate(List<FormzInput> inputs) {
+/// [StateStatus]
+class AppFormMethods {
+  /// Returns a [StateStatus] given a list of [AppFormInstance].
+  static StateStatus validate(List<AppFormInstance> inputs) {
     return inputs.every((element) => element.pure)
-        ? FormzStatus.pure
+        ? StateStatus.pure
         : inputs.any((input) => input.valid == false)
-        ? FormzStatus.invalid
-        : FormzStatus.valid;
+        ? StateStatus.invalid
+        : StateStatus.valid;
   }
 }
 
-/// Mixin that automatically handles validation of all [FormzInput]s present in
+/// Mixin that automatically handles validation of all [AppFormInstance]s present in
 /// the [inputs].
 ///
 /// When mixing this in, you are required to override the [inputs] getter and
-/// provide all [FormzInput]s you want to automatically validate.
+/// provide all [AppFormInstance]s you want to automatically validate.
 ///
 /// ```dart
-/// class LoginFormState with FormzMixin {
+/// class LoginFormState with AppForm {
 ///  LoginFormState({
 ///    this.username = const Username.pure(),
 ///    this.password = const Password.pure(),
@@ -102,17 +106,17 @@ class Formz {
 ///  final Password password;
 ///
 ///  @override
-///  List<FormzInput> get inputs => [username, password];
+///  List<AppFormInstance> get inputs => [username, password];
 /// }
 /// ```
-mixin FormzMixin {
-  /// [FormzStatus] getter which computes the status based on the
+mixin AppForm {
+  /// [StateStatus] getter which computes the status based on the
   /// validity of the [inputs].
-  FormzStatus get status => Formz.validate(inputs);
+  StateStatus get status => AppFormMethods.validate(inputs);
 
-  /// Returns all [FormzInput] instances.
+  /// Returns all [AppFormInstance] instances.
   ///
-  /// Override this and give it all [FormzInput]s in your class that should be
+  /// Override this and give it all [AppFormInstance]s in your class that should be
   /// validated automatically.
-  List<FormzInput> get inputs;
+  List<AppFormInstance> get inputs;
 }

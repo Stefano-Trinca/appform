@@ -1,8 +1,9 @@
 import 'package:flutter/widgets.dart';
 
-import '../../appform.dart';
+import '../validators/formvalidator.dart';
+import 'appformfield_core.dart';
 
-class AppFormField<T> extends AppFormFieldBase<T, AppFormField<T>> {
+class AppFormField<T> extends AppFormFieldCore<T, AppFormField<T>> {
   AppFormField.init({
     super.key,
     List<FormValidator<T>>? validators,
@@ -23,26 +24,26 @@ class AppFormField<T> extends AppFormFieldBase<T, AppFormField<T>> {
   @override
   AppFormField<T> update([T? value, List<FormValidator<T>>? validators, bool? updateController]) =>
       AppFormField<T>.dirty(
-          key: this.key,
+          key: key,
           value: value,
           validators: validators ?? this.validators,
           controller: updateController == true
               ? TextEditingController(text: asString?.call(value) ?? value?.toString() ?? '')
-              : this.controller,
-          asString: this.asString);
+              : controller,
+          asString: asString);
 
   @override
   AppFormField<T> dirty([T? value, List<FormValidator<T>>? validators, bool? updateController]) =>
       AppFormField<T>.dirty(
-          key: this.key,
+          key: key,
           value: value ?? this.value,
           validators: validators ?? this.validators,
           controller: updateController == true
               ? TextEditingController(text: asString?.call(value) ?? value?.toString() ?? '')
-              : this.controller,
-          asString: this.asString);
+              : controller,
+          asString: asString);
 
   @override
   AppFormField<T> clear() =>
-      AppFormField<T>.init(key: this.key, validators: this.validators, asString: this.asString);
+      AppFormField<T>.init(key: key, validators: validators, asString: asString);
 }

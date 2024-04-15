@@ -1,31 +1,19 @@
-import 'package:formz/formz.dart';
-
-enum StateStatus{
-  pure,
-  editing,
-  loading,
-  error,
-  valid,
-  invalid,
-  submissionInProgress,
-  submissionSuccess,
-  submissionCanceled,
-  submissionFailure;
-
-  const StateStatus();
-
-  static StateStatus fromFormzStatus(FormzStatus status) => switch(status){
-    FormzStatus.submissionFailure => StateStatus.submissionFailure,
-    FormzStatus.submissionSuccess => StateStatus.submissionSuccess,
-    FormzStatus.submissionInProgress => StateStatus.submissionInProgress,
-    FormzStatus.submissionCanceled => StateStatus.submissionCanceled,
-    FormzStatus.pure => StateStatus.pure,
-    FormzStatus.valid => StateStatus.valid,
-    FormzStatus.invalid => StateStatus.invalid,
-  };
-
+/// An enumeration of the possible states for form or process status handling.
+///
+/// This enum helps to clearly define various states that a form or any process might be in
+/// during its lifecycle, from being unaltered, through being edited, to various stages of submission.
+enum StateStatus {
+  pure,              // Initial state, with no user interaction or data entry.
+  editing,           // State indicating that data is currently being edited.
+  loading,           // State when data or necessary resources are being loaded.
+  error,             // State when an error has occurred.
+  valid,             // State indicating that the current data is valid.
+  invalid,           // State indicating that the current data is invalid.
+  submissionInProgress, // State when a submission process is actively in progress.
+  submissionSuccess, // State when a submission has been successfully completed.
+  submissionCanceled, // State when a submission has been canceled.
+  submissionFailure; // State when a submission has failed.
 }
-
 extension StateStatusExt on StateStatus{
 
   bool get isPure => this == StateStatus.pure;

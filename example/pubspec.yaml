@@ -33,6 +33,8 @@ dependencies:
 
   equatable:
   flutter_bloc:
+  appform:
+    path: ../../appform
 
   applog:
     git:

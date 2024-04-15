@@ -2,12 +2,12 @@ part of 'form_page_cubit.dart';
 
 @immutable
 class FormPageState extends Equatable with AppForm {
-  final bool state;
+  final StateStatus stateStatus;
   final AppFormFieldString nameField;
   final AppFormFieldString surnameField;
 
   FormPageState({
-    this.state = false,
+    this.stateStatus = StateStatus.pure,
     AppFormFieldString? nameField,
     AppFormFieldString? surnameField,
   })  : nameField = nameField ??
@@ -19,21 +19,21 @@ class FormPageState extends Equatable with AppForm {
               FormValidator.empty('Inserisci Cognome'),
             ]);
 
+  @override
+  List<Object> get props => [stateStatus, nameField, surnameField];
+
+  @override
+  List<AppFormField> get inputs => [nameField, surnameField];
+
   FormPageState copyWith({
-    bool? state,
+    StateStatus? stateStatus,
     AppFormFieldString? nameField,
     AppFormFieldString? surnameField,
   }) {
     return FormPageState(
-      state: state ?? this.state,
+      stateStatus: stateStatus ?? this.stateStatus,
       nameField: nameField ?? this.nameField,
       surnameField: surnameField ?? this.surnameField,
     );
   }
-
-  @override
-  List<Object> get props => [state, nameField, surnameField];
-
-  @override
-  List<AppFormField> get inputs => [nameField, surnameField];
 }

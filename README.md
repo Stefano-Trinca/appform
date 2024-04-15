@@ -19,8 +19,6 @@ appform:
     ref: 0.0.1
 ```
 
-Replace `[nome-utente]` with your GitHub username.
-
 ## Example Usage
 
 Here is a simple example demonstrating how to use AppForm with Flutter_Bloc:

@@ -6,7 +6,9 @@ import '../validators/formvalidator.dart';
 class AppFormFieldString extends AppFormField<String> {
   final TextEditingController controller = TextEditingController();
 
-  AppFormFieldString({String? text, List<FormValidator<String>>? validators})
+  AppFormFieldString({
+    super.key,
+    String? text, List<FormValidator<String>>? validators})
       : super(value: text ?? '', validators: validators ?? []) {
     controller.text = text ?? '';
     controller.addListener(_updateValue);

@@ -17,7 +17,7 @@ class AppFormMethods {
   static StateStatus validate(List<AppFormField> inputs) {
     bool isValid = true;
     for (var e in inputs) {
-      if (e.validate() != null) {
+      if (e.validate(inputs) != null) {
         isValid = false;
       }
     }

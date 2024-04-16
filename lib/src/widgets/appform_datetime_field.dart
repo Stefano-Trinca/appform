@@ -2,7 +2,7 @@ import 'package:appform/appform.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart' hide TextDirection;
+import 'package:intl/intl.dart' as intl;
 
 class AppFormDateTimeField extends StatelessWidget {
   const AppFormDateTimeField({
@@ -72,7 +72,7 @@ class AppFormDateTimeField extends StatelessWidget {
   });
 
   final AppFormFieldDateTime field;
-  final DateFormat? dateFormat;
+  final intl.DateFormat? dateFormat;
   final String? hintText;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
@@ -142,7 +142,7 @@ class AppFormDateTimeField extends StatelessWidget {
         final controller = TextEditingController(
             text: value.value == null
                 ? ''
-                : (dateFormat ?? DateFormat('dd/MM/yyyy')).format(value.value!));
+                : (dateFormat ?? intl.DateFormat('dd/MM/yyyy')).format(value.value!));
 
         final inputDecoration = (decoration ?? const InputDecoration()).copyWith(
           errorText: value.error,

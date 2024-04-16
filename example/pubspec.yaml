@@ -35,6 +35,7 @@ dependencies:
   flutter_bloc:
   appform:
     path: ../../appform
+  intl:
 
   applog:
     git:

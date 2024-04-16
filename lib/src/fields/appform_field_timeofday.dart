@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class AppFormFieldTimeOfDay extends AppFormField<TimeOfDay?> {
   AppFormFieldTimeOfDay({
+    super.key,
     TimeOfDay? time,
     List<FormValidator<TimeOfDay>>? validators,
     bool initialValueNow = false,

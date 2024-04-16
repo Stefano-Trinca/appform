@@ -19,7 +19,8 @@ class FormPageCubit extends Cubit<FormPageState> {
         'fileds value = \n'
             'formValid = ${state.formValid}\n'
             'name = ${state.nameField.data}\n'
-            'surname = ${state.surnameField.data}\n',
+            'surname = ${state.surnameField.data}\n'
+            'surnameCompareField = ${state.surnameCompareField.data}\n',
         'FormPageCubit',
         'submit');
   }

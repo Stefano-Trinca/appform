@@ -41,15 +41,13 @@ class _Form extends StatelessWidget {
               field: state.nameField,
               hintText: 'Nome',
             ),
-            AppFormTextField(
-              field: state.surnameField,
-              hintText: 'Cognome',
-              minLines: 2,
-              maxLines: 4,
-            ),
             AppFormPasswordField(
               field: state.surnameField,
-              hintText: 'Noup',
+              hintText: 'Cognome',
+            ),
+            AppFormPasswordField(
+              field: state.surnameCompareField,
+              hintText: 'Cognome Uguale',
             ),
 
             // TextFormField(

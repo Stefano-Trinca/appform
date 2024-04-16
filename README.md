@@ -21,7 +21,7 @@ appform:
 
 ## Example Usage
 
-Here is a simple example demonstrating how to use AppForm with Flutter_Bloc:
+Here is a simple example demonstrating how to use AppForm with Flutter_Bloc, with a Cubit controller:
 
 ```dart
 import 'package:appform/appform.dart';
@@ -67,6 +67,58 @@ class MyForm extends StatelessWidget {
     );
   }
 }
+```
+
+The MyFormCubit class
+
+```dart
+import 'package:appform/appform.dart';
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+
+part 'my_form_state.dart';
+
+class MyFormCubit extends Cubit<MyFormState> {
+  MyFormCubit() : super(MyFormState());
+
+  void submit() {
+    print(state.formValid); //validate the form
+  }
+}
+
+```
+The MyFormState class
+
+```dart
+part of 'my_form_cubit.dart';
+
+@immutable
+class MyFormState extends Equatable with AppForm {
+  final AppFormFieldString nameField;
+
+  MyFormState({
+    AppFormFieldString? nameField,
+  })  : nameField = nameField ??
+      AppFormFieldString(validators: [
+        FormValidators.required('Inserisci Nome'),
+      ]);
+
+  @override
+  List<Object> get props => [nameField];
+
+  @override
+  List<AppFormField> get inputs => [nameField];
+
+  FormPageState copyWith({
+    AppFormFieldString? nameField,
+  }) {
+    return FormPageState(
+      nameField: nameField ?? this.nameField,
+    );
+  }
+}
+
 ```
 
 ## Documentation

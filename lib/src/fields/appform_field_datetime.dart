@@ -1,6 +1,6 @@
 import '../../appform.dart';
 
-class AppFormFieldDateTime extends AppFormField<DateTime?> {
+class AppFormFieldDateTime extends AppFormFieldBase<DateTime?> {
   AppFormFieldDateTime({
     super.key,
     DateTime? date,

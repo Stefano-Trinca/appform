@@ -9,6 +9,7 @@ class AppFormDateTimeField extends StatelessWidget {
     super.key,
     required this.field,
     this.dateFormat,
+    this.onSelectDate,
     this.hintText,
     this.prefixIcon,
     this.suffixIcon,
@@ -24,7 +25,7 @@ class AppFormDateTimeField extends StatelessWidget {
     this.textAlignVertical,
     this.textDirection,
     this.readOnly = false,
-    this.showCursor,
+    this.showCursor = false,
     this.autofocus = false,
     this.obscuringCharacter = '•',
     this.obscureText = false,
@@ -52,7 +53,6 @@ class AppFormDateTimeField extends StatelessWidget {
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.dragStartBehavior = DragStartBehavior.start,
     this.selectionControls,
-    this.onTap,
     this.onTapOutside,
     this.mouseCursor,
     this.buildCounter,
@@ -73,6 +73,7 @@ class AppFormDateTimeField extends StatelessWidget {
 
   final AppFormFieldDateTime field;
   final intl.DateFormat? dateFormat;
+  final Future<DateTime?> Function(BuildContext context,DateTime? initialData)? onSelectDate;
   final String? hintText;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
@@ -117,7 +118,6 @@ class AppFormDateTimeField extends StatelessWidget {
   final bool? enableInteractiveSelection;
   final TextSelectionControls? selectionControls;
   final DragStartBehavior dragStartBehavior;
-  final GestureTapCallback? onTap;
   final TapRegionCallback? onTapOutside;
   final MouseCursor? mouseCursor;
   final InputCounterWidgetBuilder? buildCounter;
@@ -151,10 +151,28 @@ class AppFormDateTimeField extends StatelessWidget {
           prefixIcon: prefixIcon,
         );
 
+
+        //function for select the date
+        onTap() async {
+          DateTime? date;
+          if(onSelectDate!=null){
+            date = await onSelectDate!.call(context,value.value);
+          }else{
+            date = await showDatePicker(
+                context: context,
+                initialDate: value.value,
+                firstDate: DateTime(1970),
+                lastDate: DateTime(2100),
+            );
+          }
+          field.update(date);
+        }
+
         return TextField(
           controller: controller,
           focusNode: focusNode,
           decoration: inputDecoration,
+          onTap: onTap,
           undoController: undoController,
           keyboardType: keyboardType,
           textInputAction: textInputAction,
@@ -193,7 +211,6 @@ class AppFormDateTimeField extends StatelessWidget {
           scrollPadding: scrollPadding,
           dragStartBehavior: dragStartBehavior,
           selectionControls: selectionControls,
-          onTap: onTap,
           onTapOutside: onTapOutside,
           mouseCursor: mouseCursor,
           buildCounter: buildCounter,

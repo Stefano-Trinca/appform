@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../appform.dart';
 
-class AppFormFieldBuilder<F extends AppFormField<T>,T> extends StatelessWidget {
+class AppFormFieldBuilder<F extends AppFormFieldBase<T>,T> extends StatelessWidget {
   const AppFormFieldBuilder({super.key, required this.field, required this.builder});
 
   final F field;

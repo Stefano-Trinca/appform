@@ -1,7 +1,7 @@
 import 'package:appform/appform.dart';
 import 'package:flutter/material.dart';
 
-class AppFormFieldTimeOfDay extends AppFormField<TimeOfDay?> {
+class AppFormFieldTimeOfDay extends AppFormFieldBase<TimeOfDay?> {
   AppFormFieldTimeOfDay({
     super.key,
     TimeOfDay? time,

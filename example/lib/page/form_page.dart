@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:appform/appform.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +26,7 @@ class _Form extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FormPageCubit, FormPageState>(
-      buildWhen: (previous, current) => previous.stateStatus!=current.stateStatus,
+      buildWhen: (previous, current) => previous.stateStatus != current.stateStatus,
       builder: (context, state) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -48,6 +50,19 @@ class _Form extends StatelessWidget {
             AppFormPasswordField(
               field: state.surnameCompareField,
               hintText: 'Cognome Uguale',
+            ),
+            AppFormDateTimeField(
+              field: state.dateField,
+              hintText: 'Selecet Date',
+            ),
+            AppFormFieldBuilder<AppFormField<FormStateEnum>, FormStateEnum?>(
+              field: state.stateField,
+              builder: (context, value, child) {
+                return RawChip(
+                    onPressed: () =>
+                        state.stateField.set(FormStateEnum.values[Random().nextInt(2)]),
+                    label: Text(value.value?.name ?? ''));
+              },
             ),
 
             // TextFormField(

@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 
 import '../validators/formvalidator.dart';
 
-abstract class AppFormField<T> extends ValueNotifier<AppFormFieldValue<T>> {
+abstract class AppFormFieldBase<T> extends ValueNotifier<AppFormFieldValue<T>> {
   final String? key;
   final List<FormValidator<T>> validators;
 
-  AppFormField({this.key, required T value, this.validators = const []})
+  AppFormFieldBase({this.key, required T value, this.validators = const []})
       : super(AppFormFieldValue<T>(value: value));
 
-  void set(T value) =>
+  void set(T value) => super.value =
       AppFormFieldValue<T>(value: value, valid: super.value.valid, error: super.value.error);
 
   void update(T value) => super.value = super.value.copyWith(value: value);
@@ -25,7 +25,7 @@ abstract class AppFormField<T> extends ValueNotifier<AppFormFieldValue<T>> {
   bool get hasConditionalValidators =>
       validators.isNotEmpty && validators.any((v) => v is ConditionalFieldValidator);
 
-  String? validate([List<AppFormField> fields = const []]) {
+  String? validate([List<AppFormFieldBase> fields = const []]) {
     if (hasConditionalValidators && fields.isEmpty) {
       super.value =
           super.value.copyWith(valid: false, error: 'Validation not possible - fields empty');
@@ -62,7 +62,7 @@ abstract class AppFormField<T> extends ValueNotifier<AppFormFieldValue<T>> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AppFormField &&
+      other is AppFormFieldBase &&
           runtimeType == other.runtimeType &&
           key == other.key &&
           validators == other.validators;

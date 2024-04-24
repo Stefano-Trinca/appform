@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../core/appform_field.dart';
+import '../core/appform_field_base.dart';
 import '../validators/formvalidator.dart';
 
-class AppFormFieldString extends AppFormField<String> {
+class AppFormFieldString extends AppFormFieldBase<String> {
   final TextEditingController controller = TextEditingController();
 
   AppFormFieldString({

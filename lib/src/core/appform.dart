@@ -1,9 +1,9 @@
 import 'package:appform/src/state/state_status.dart';
 
-import 'appform_field.dart';
+import 'appform_field_base.dart';
 
 mixin AppForm {
-  List<AppFormField> get inputs;
+  List<AppFormFieldBase> get inputs;
 
   /// Determinate the state of the Form
   ///
@@ -14,7 +14,7 @@ mixin AppForm {
 }
 
 class AppFormMethods {
-  static StateStatus validate(List<AppFormField> inputs) {
+  static StateStatus validate(List<AppFormFieldBase> inputs) {
     bool isValid = true;
     for (var e in inputs) {
       if (e.validate(inputs) != null) {

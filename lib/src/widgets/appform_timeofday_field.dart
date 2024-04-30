@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' as intl;
 
-class AppFormDateTimeField extends StatelessWidget {
-  const AppFormDateTimeField({
+class AppFormTimeOfDayField extends StatelessWidget {
+  const AppFormTimeOfDayField({
     super.key,
     required this.field,
-    this.dateFormat,
-    this.onSelectDate,
-    this.onDateChange,
+    this.timeFormat,
+    this.onSelectTimeOfDay,
+    this.onTimeOfDayChange,
     this.hintText,
     this.prefixIcon,
     this.suffixIcon,
@@ -72,10 +72,11 @@ class AppFormDateTimeField extends StatelessWidget {
     this.enableInteractiveSelection,
   });
 
-  final AppFormFieldDateTime field;
-  final intl.DateFormat? dateFormat;
-  final Future<DateTime?> Function(BuildContext context,DateTime? initialData)? onSelectDate;
-  final Function(DateTime? date)? onDateChange;
+  final AppFormFieldTimeOfDay field;
+  final intl.DateFormat? timeFormat;
+  final Future<TimeOfDay?> Function(BuildContext context, TimeOfDay? initialTime)?
+      onSelectTimeOfDay;
+  final Function(TimeOfDay? time)? onTimeOfDayChange;
   final String? hintText;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
@@ -138,13 +139,16 @@ class AppFormDateTimeField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppFormFieldBuilder<AppFormFieldDateTime, DateTime?>(
+    return AppFormFieldBuilder<AppFormFieldTimeOfDay, TimeOfDay?>(
       field: field,
       builder: (context, value, child) {
         final controller = TextEditingController(
             text: value.value == null
                 ? ''
-                : (dateFormat ?? intl.DateFormat('dd/MM/yyyy')).format(value.value!));
+                : (timeFormat ?? intl.DateFormat('HH:mm')).format(DateTime(1970).copyWith(
+                    hour: value.value!.hour,
+                    minute: value.value!.minute,
+                  )));
 
         final inputDecoration = (decoration ?? const InputDecoration()).copyWith(
           errorText: value.error,
@@ -153,22 +157,19 @@ class AppFormDateTimeField extends StatelessWidget {
           prefixIcon: prefixIcon,
         );
 
-
         //function for select the date
         onTap() async {
-          DateTime? date;
-          if(onSelectDate!=null){
-            date = await onSelectDate!.call(context,value.value);
-          }else{
-            date = await showDatePicker(
-                context: context,
-                initialDate: value.value,
-                firstDate: DateTime(1970),
-                lastDate: DateTime(2100),
+          TimeOfDay? time;
+          if (onSelectTimeOfDay != null) {
+            time = await onSelectTimeOfDay!.call(context, value.value);
+          } else {
+            time = await showTimePicker(
+              context: context,
+              initialTime: value.value ?? TimeOfDay.now(),
             );
           }
-          field.update(date);
-          onDateChange?.call(date);
+          field.update(time);
+          onTimeOfDayChange?.call(time);
         }
 
         return TextField(

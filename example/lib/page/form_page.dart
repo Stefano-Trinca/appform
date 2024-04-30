@@ -55,6 +55,10 @@ class _Form extends StatelessWidget {
               field: state.dateField,
               hintText: 'Selecet Date',
             ),
+            AppFormTimeOfDayField(
+                field: state.timeField,
+                hintText: 'Seleziona Ora',
+            ),
             AppFormFieldBuilder<AppFormField<FormStateEnum>, FormStateEnum?>(
               field: state.stateField,
               builder: (context, value, child) {

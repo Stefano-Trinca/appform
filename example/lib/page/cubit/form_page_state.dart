@@ -7,6 +7,7 @@ class FormPageState extends Equatable with AppForm {
   final AppFormFieldString surnameField;
   final AppFormFieldString surnameCompareField;
   final AppFormFieldDateTime dateField;
+  final AppFormFieldTimeOfDay timeField;
   final AppFormField<FormStateEnum> stateField;
 
   FormPageState({
@@ -15,6 +16,7 @@ class FormPageState extends Equatable with AppForm {
     AppFormFieldString? surnameField,
     AppFormFieldString? surnameCompareField,
     AppFormFieldDateTime? dateField,
+    AppFormFieldTimeOfDay? timeField,
     AppFormField<FormStateEnum>? stateField,
   })  : nameField = nameField ??
             AppFormFieldString(validators: [
@@ -29,15 +31,16 @@ class FormPageState extends Equatable with AppForm {
               FormValidators.sameValueAsField('surname', 'Cognomi differenti'),
             ]),
         stateField = stateField ?? AppFormField<FormStateEnum>(),
+        timeField = timeField ?? AppFormFieldTimeOfDay(),
         dateField = dateField ?? AppFormFieldDateTime(initialValueNow: true, validators: []);
 
   @override
   List<Object> get props =>
-      [stateStatus, nameField, surnameField, surnameCompareField, dateField, stateField];
+      [stateStatus, nameField, surnameField, surnameCompareField, dateField, timeField,stateField];
 
   @override
   List<AppFormFieldBase> get inputs =>
-      [nameField, surnameField, surnameCompareField, dateField, stateField];
+      [nameField, surnameField, surnameCompareField, dateField, timeField, stateField];
 
   FormPageState copyWith({
     StateStatus? stateStatus,
@@ -45,6 +48,7 @@ class FormPageState extends Equatable with AppForm {
     AppFormFieldString? surnameField,
     AppFormFieldString? surnameCompareField,
     AppFormFieldDateTime? dateField,
+    AppFormFieldTimeOfDay? timeField,
     AppFormField<FormStateEnum>? stateField,
   }) {
     return FormPageState(
@@ -54,6 +58,7 @@ class FormPageState extends Equatable with AppForm {
       surnameCompareField: surnameCompareField ?? this.surnameCompareField,
       dateField: dateField ?? this.dateField,
       stateField: stateField ?? this.stateField,
+      timeField: timeField ?? this.timeField,
     );
   }
 }

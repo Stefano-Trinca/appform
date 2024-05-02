@@ -39,9 +39,18 @@ class _Form extends StatelessWidget {
                       color: Colors.red,
                     ),
               ),
-            AppFormTextField(
-              field: state.nameField,
-              hintText: 'Nome',
+            AppFormFocusFieldBuilder(
+              onFocusLost: () {
+                print('Focus Lost');
+              },
+              onFocusGain: () {
+                print('Focus Gain');
+              },
+              builder: (context, focusNode) => AppFormTextField(
+                field: state.nameField,
+                focusNode: focusNode,
+                hintText: 'Nome',
+              ),
             ),
             AppFormPasswordField(
               field: state.surnameField,

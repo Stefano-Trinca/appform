@@ -12,6 +12,7 @@ class AppFormTimeOfDayField extends StatelessWidget {
     this.onSelectTimeOfDay,
     this.onTimeOfDayChange,
     this.hintText,
+    this.label,
     this.prefixIcon,
     this.suffixIcon,
     this.focusNode,
@@ -78,6 +79,7 @@ class AppFormTimeOfDayField extends StatelessWidget {
       onSelectTimeOfDay;
   final Function(TimeOfDay? time)? onTimeOfDayChange;
   final String? hintText;
+  final String? label;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final TextMagnifierConfiguration? magnifierConfiguration;
@@ -155,6 +157,7 @@ class AppFormTimeOfDayField extends StatelessWidget {
           hintText: hintText,
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
+          label: label==null ? null : Text(label!),
         );
 
         //function for select the date

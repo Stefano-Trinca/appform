@@ -8,6 +8,7 @@ class AppFormPasswordField extends StatefulWidget {
     super.key,
     required this.field,
     this.hintText,
+    this.label,
     this.prefixIcon,
     this.iconShow = Icons.visibility,
     this.iconObscure = Icons.visibility_off,
@@ -63,6 +64,7 @@ class AppFormPasswordField extends StatefulWidget {
 
   final AppFormFieldString field;
   final String? hintText;
+  final String? label;
   final Widget? prefixIcon;
 
   /// Show icon
@@ -143,6 +145,7 @@ class _AppFormPasswordFieldState extends State<AppFormPasswordField> {
       prefixIcon: widget.prefixIcon,
       suffixIcon: suffixIcon,
       hintText: widget.hintText,
+      label: widget.label,
       keyboardType: widget.keyboardType ?? TextInputType.visiblePassword,
       textInputAction: widget.textInputAction,
       textCapitalization: widget.textCapitalization,

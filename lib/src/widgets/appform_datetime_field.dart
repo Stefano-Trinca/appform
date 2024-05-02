@@ -12,6 +12,7 @@ class AppFormDateTimeField extends StatelessWidget {
     this.onSelectDate,
     this.onDateChange,
     this.hintText,
+    this.label,
     this.prefixIcon,
     this.suffixIcon,
     this.focusNode,
@@ -74,9 +75,10 @@ class AppFormDateTimeField extends StatelessWidget {
 
   final AppFormFieldDateTime field;
   final intl.DateFormat? dateFormat;
-  final Future<DateTime?> Function(BuildContext context,DateTime? initialData)? onSelectDate;
+  final Future<DateTime?> Function(BuildContext context, DateTime? initialData)? onSelectDate;
   final Function(DateTime? date)? onDateChange;
   final String? hintText;
+  final String? label;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final TextMagnifierConfiguration? magnifierConfiguration;
@@ -151,20 +153,20 @@ class AppFormDateTimeField extends StatelessWidget {
           hintText: hintText,
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
+          label: label == null ? null : Text(label!),
         );
-
 
         //function for select the date
         onTap() async {
           DateTime? date;
-          if(onSelectDate!=null){
-            date = await onSelectDate!.call(context,value.value);
-          }else{
+          if (onSelectDate != null) {
+            date = await onSelectDate!.call(context, value.value);
+          } else {
             date = await showDatePicker(
-                context: context,
-                initialDate: value.value,
-                firstDate: DateTime(1970),
-                lastDate: DateTime(2100),
+              context: context,
+              initialDate: value.value,
+              firstDate: DateTime(1970),
+              lastDate: DateTime(2100),
             );
           }
           field.update(date);

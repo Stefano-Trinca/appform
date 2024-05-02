@@ -9,6 +9,7 @@ class AppFormTextField extends StatelessWidget {
     super.key,
     required this.field,
     this.hintText,
+    this.label,
     this.prefixIcon,
     this.suffixIcon,
     this.focusNode,
@@ -72,6 +73,7 @@ class AppFormTextField extends StatelessWidget {
 
   final AppFormFieldString field;
   final String? hintText;
+  final String? label;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final TextMagnifierConfiguration? magnifierConfiguration;
@@ -141,6 +143,7 @@ class AppFormTextField extends StatelessWidget {
             hintText: hintText,
             suffixIcon: suffixIcon,
             prefixIcon: prefixIcon,
+            label: label==null ? null : Text(label!),
           );
 
           return TextField(

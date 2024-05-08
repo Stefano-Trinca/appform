@@ -146,6 +146,7 @@ class _AppFormPasswordFieldState extends State<AppFormPasswordField> {
       suffixIcon: suffixIcon,
       hintText: widget.hintText,
       label: widget.label,
+      decoration: widget.decoration,
       keyboardType: widget.keyboardType ?? TextInputType.visiblePassword,
       textInputAction: widget.textInputAction,
       textCapitalization: widget.textCapitalization,

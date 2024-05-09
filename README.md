@@ -16,7 +16,7 @@ To start using the AppForm package, add it to your project by including the foll
 appform:
   git:
     url: https://github.com/Stefano-Trinca/appform.git
-    ref: 0.0.7
+    ref: 0.0.8
 ```
 
 ## Example Usage

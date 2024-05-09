@@ -5,17 +5,20 @@ import '../validators/formvalidator.dart';
 
 class AppFormFieldString extends AppFormFieldBase<String> {
   final TextEditingController controller = TextEditingController();
+  final bool validateOnChange;
 
-  AppFormFieldString({
-    super.key,
-    String? text, List<FormValidator<String>>? validators})
+  AppFormFieldString(
+      {super.key,
+      String? text,
+      List<FormValidator<String>>? validators,
+      this.validateOnChange = false})
       : super(value: text ?? '', validators: validators ?? []) {
     controller.text = text ?? '';
     controller.addListener(_updateValue);
   }
 
   void _updateValue() {
-    super.update(controller.text);
+    super.update(controller.text, validateOnChange);
   }
 
   @override
@@ -27,6 +30,6 @@ class AppFormFieldString extends AppFormFieldBase<String> {
   @override
   void clear() {
     controller.clear();
-    super.update('');
+    super.update('', validateOnChange);
   }
 }

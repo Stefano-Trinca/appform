@@ -10,10 +10,20 @@ abstract class AppFormFieldBase<T> extends ValueNotifier<AppFormFieldValue<T>> {
   AppFormFieldBase({this.key, required T value, this.validators = const []})
       : super(AppFormFieldValue<T>(value: value));
 
-  void set(T value) => super.value =
-      AppFormFieldValue<T>(value: value, valid: super.value.valid, error: super.value.error);
+  void set(T value, [bool validate = false, List<AppFormFieldBase> fields = const []]) {
+    super.value =
+        AppFormFieldValue<T>(value: value, valid: super.value.valid, error: super.value.error);
+    if (validate) {
+      this.validate(fields);
+    }
+  }
 
-  void update(T value) => super.value = super.value.copyWith(value: value);
+  void update(T value, [bool validate = false, List<AppFormFieldBase> fields = const []]) {
+    super.value = super.value.copyWith(value: value);
+    if (validate) {
+      this.validate(fields);
+    }
+  }
 
   void clear();
 

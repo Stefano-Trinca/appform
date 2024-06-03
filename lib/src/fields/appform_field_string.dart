@@ -14,9 +14,9 @@ class AppFormFieldString extends AppFormFieldBase<String> {
     this.validateOnChange = false,
     TextEditingController? controller,
   }) : super(value: text ?? '', validators: validators ?? []) {
-    controller = controller ?? TextEditingController();
-    controller.text = text ?? '';
-    controller.addListener(_updateValue);
+    this.controller = controller ?? TextEditingController();
+    this.controller.text = text ?? '';
+    this.controller.addListener(_updateValue);
   }
 
   void _updateValue() {

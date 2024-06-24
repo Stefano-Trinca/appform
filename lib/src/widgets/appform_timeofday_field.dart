@@ -75,8 +75,8 @@ class AppFormTimeOfDayField extends StatelessWidget {
 
   final AppFormFieldTimeOfDay field;
   final intl.DateFormat? timeFormat;
-  final Future<TimeOfDay?> Function(BuildContext context, TimeOfDay? initialTime)?
-      onSelectTimeOfDay;
+  final Future<TimeOfDay?> Function(
+      BuildContext context, TimeOfDay? initialTime)? onSelectTimeOfDay;
   final Function(TimeOfDay? time)? onTimeOfDayChange;
   final String? hintText;
   final String? label;
@@ -139,6 +139,20 @@ class AppFormTimeOfDayField extends StatelessWidget {
   final UndoHistoryController? undoController;
   final SpellCheckConfiguration? spellCheckConfiguration;
 
+  void _onTimeSelect(BuildContext context, TimeOfDay? value) async {
+    TimeOfDay? time;
+    if (onSelectTimeOfDay != null) {
+      time = await onSelectTimeOfDay!.call(context, value);
+    } else {
+      time = await showTimePicker(
+        context: context,
+        initialTime: value ?? TimeOfDay.now(),
+      );
+    }
+    field.update(time);
+    onTimeOfDayChange?.call(time);
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppFormFieldBuilder<AppFormFieldTimeOfDay, TimeOfDay?>(
@@ -147,39 +161,28 @@ class AppFormTimeOfDayField extends StatelessWidget {
         final controller = TextEditingController(
             text: value.value == null
                 ? ''
-                : (timeFormat ?? intl.DateFormat('HH:mm')).format(DateTime(1970).copyWith(
+                : (timeFormat ?? intl.DateFormat('HH:mm'))
+                    .format(DateTime(1970).copyWith(
                     hour: value.value!.hour,
                     minute: value.value!.minute,
                   )));
 
-        final inputDecoration = (decoration ?? const InputDecoration()).copyWith(
+        final inputDecoration =
+            (decoration ?? const InputDecoration()).copyWith(
           errorText: value.error,
           hintText: hintText,
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
-          label: label==null ? null : Text(label!),
+          label: label == null ? null : Text(label!),
         );
-
-        //function for select the date
-        onTap() async {
-          TimeOfDay? time;
-          if (onSelectTimeOfDay != null) {
-            time = await onSelectTimeOfDay!.call(context, value.value);
-          } else {
-            time = await showTimePicker(
-              context: context,
-              initialTime: value.value ?? TimeOfDay.now(),
-            );
-          }
-          field.update(time);
-          onTimeOfDayChange?.call(time);
-        }
 
         return TextField(
           controller: controller,
           focusNode: focusNode,
           decoration: inputDecoration,
-          onTap: onTap,
+          onTap: (enableInteractiveSelection == false)
+              ? () => _onTimeSelect(context, value.value)
+              : null,
           undoController: undoController,
           keyboardType: keyboardType,
           textInputAction: textInputAction,

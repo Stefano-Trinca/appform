@@ -153,6 +153,17 @@ class AppFormTimeOfDayField extends StatelessWidget {
     onTimeOfDayChange?.call(time);
   }
 
+  void _onChange(String value) {
+    onChanged?.call(value);
+    if (enableInteractiveSelection == true) {
+      final time = FormParser.parseTimeOfDay(value);
+      if (time != null) {
+        field.update(time);
+        onTimeOfDayChange?.call(time);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppFormFieldBuilder<AppFormFieldTimeOfDay, TimeOfDay?>(
@@ -184,7 +195,7 @@ class AppFormTimeOfDayField extends StatelessWidget {
               ? () => _onTimeSelect(context, value.value)
               : null,
           undoController: undoController,
-          keyboardType: keyboardType,
+          keyboardType: keyboardType ?? TextInputType.number,
           textInputAction: textInputAction,
           textCapitalization: textCapitalization,
           style: style,
@@ -193,7 +204,9 @@ class AppFormTimeOfDayField extends StatelessWidget {
           textAlignVertical: textAlignVertical,
           textDirection: textDirection,
           readOnly: readOnly,
-          showCursor: showCursor,
+          showCursor: showCursor ?? (enableInteractiveSelection ?? false)
+              ? false
+              : true,
           autofocus: autofocus,
           obscuringCharacter: obscuringCharacter,
           obscureText: obscureText,
@@ -206,11 +219,16 @@ class AppFormTimeOfDayField extends StatelessWidget {
           expands: expands,
           maxLength: maxLength,
           maxLengthEnforcement: maxLengthEnforcement,
-          onChanged: onChanged,
+          onChanged: _onChange,
           onEditingComplete: onEditingComplete,
           onSubmitted: onSubmitted,
           onAppPrivateCommand: onAppPrivateCommand,
-          inputFormatters: inputFormatters,
+          inputFormatters: inputFormatters ??
+              [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9:]')),
+                LengthLimitingTextInputFormatter(5),
+                TimeTextInputFormatter(),
+              ],
           enabled: enabled,
           cursorWidth: cursorWidth,
           cursorHeight: cursorHeight,
@@ -240,5 +258,33 @@ class AppFormTimeOfDayField extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class TimeTextInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    String newText = newValue.text;
+
+    if (newText.length > 5 || newText.contains(RegExp(r'[^0-9:]'))) {
+      return oldValue;
+    }
+
+    if (newText.length >= 3 && !newText.contains(':')) {
+      final text = newText.replaceRange(2, 2, ':');
+      final selection = TextSelection.collapsed(
+          offset: newValue.selection.end >= 2
+              ? newValue.selection.end + 1
+              : newValue.selection.end);
+      return newValue.copyWith(
+        text: text,
+        selection: selection,
+      );
+    }
+
+    return newValue;
   }
 }

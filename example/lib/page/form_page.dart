@@ -71,7 +71,10 @@ class _Form extends StatelessWidget {
                 AppFormTimeOfDayField(
                   field: state.timeField,
                   hintText: 'Seleziona Ora',
-                  enableInteractiveSelection: false,
+                  enableInteractiveSelection: true,
+                  onTimeOfDayChange: (time) {
+                    print('the select time is ${time.toString()}');
+                  },
                 ),
                 AppFormFieldBuilder<AppFormField<FormStateEnum>,
                     FormStateEnum?>(

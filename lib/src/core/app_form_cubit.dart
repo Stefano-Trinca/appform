@@ -20,6 +20,7 @@ mixin AppFormCubit<State extends AppFormState<State>> on Cubit<State> {
       }
       map[field.key] = newField;
     }
+    emit(state.copyWithFields(map));
     return valid ? StateStatus.valid : StateStatus.invalid;
   }
 }

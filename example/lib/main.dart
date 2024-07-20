@@ -1,4 +1,3 @@
-import 'package:example/page/form_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +11,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'AppForm',
-      home: FormPage(),
+      home: FormPage(), //TODO: recreate the sample page
     );
   }
 }

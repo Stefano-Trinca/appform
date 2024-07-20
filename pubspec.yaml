@@ -1,6 +1,6 @@
 name: appform
 description: "Creating forms faster with Cubit or Flutter Bloc"
-version: 0.0.12
+version: 0.2.0
 homepage:
 
 environment:

@@ -7,7 +7,7 @@ typedef ValidateFunction<T> = bool Function(T? value);
 typedef ConditionalValidateFunction<T> = bool Function(
     T? value, T? conditionalValue);
 
-class ConditionalFieldValidator<T> extends FormValidator<T> {
+class ConditionalFieldValidator<T> extends FieldValidatorInterface<T> {
   final String conditionalFieldKey;
   final ConditionalValidateFunction<T> validate;
 
@@ -21,7 +21,7 @@ class ConditionalFieldValidator<T> extends FormValidator<T> {
   List<Object> get props => [super.errorMessage, conditionalFieldKey, validate];
 }
 
-class FieldValidator<T> extends FormValidator<T> {
+class FieldValidator<T> extends FieldValidatorInterface<T> {
   final ValidateFunction<T> validate;
 
   const FieldValidator({
@@ -33,15 +33,15 @@ class FieldValidator<T> extends FormValidator<T> {
   List<Object> get props => [super.errorMessage, validate];
 }
 
-abstract class FormValidator<T> extends Equatable {
+abstract class FieldValidatorInterface<T> extends Equatable {
   final String errorMessage;
 
-  const FormValidator({
+  const FieldValidatorInterface({
     required this.errorMessage,
   });
 }
 
-class FormValidators {
+class FieldValidators {
   /// Ensures that a field is not empty.
   ///
   /// This validator checks if the value provided is non-null and not empty. It is type-flexible,

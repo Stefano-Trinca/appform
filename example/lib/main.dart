@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Test AppForm',
+      title: 'Sample with AppForm',
       theme: ThemeData.from(
           colorScheme:
               ColorScheme.fromSeed(seedColor: const Color(0xff572ffe))),
@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('test Appform'),
+        title: const Text('AppForm and Flutter Cubit'),
       ),
       body: Center(
         child: ConstrainedBox(

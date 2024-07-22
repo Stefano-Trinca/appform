@@ -22,12 +22,12 @@ class TestFormState extends AppFormState<TestFormState> {
             AppFormFieldString(key: 'email', value: '', validators: [
               FieldValidators.required('Write your name'),
               FieldValidators.sameValueAsField(
-                  'name', 'La mail deve essere il nome'),
+                  'name', 'Email must be the same as name'),
               FieldValidators.email('Write a valid email'),
             ]),
         password = password ??
             AppFormFieldString(value: '', key: 'password', validators: [
-              FieldValidators.containNumber('inserisci numeri')
+              FieldValidators.containNumber('Add at least one number')
             ]);
 
   TestFormState copyWith({

@@ -19,7 +19,7 @@ Add `appform` to your `pubspec.yaml`:
 appform:
   git:
     url: https://github.com/Stefano-Trinca/appform.git
-    ref: 0.2.2
+    ref: 0.2.3
 ```
 
 Then, run `flutter pub get` to install the package.

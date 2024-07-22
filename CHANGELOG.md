@@ -1,3 +1,3 @@
-## 0.0.1
+## 0.2.2
 
-* TODO: Describe initial release.
+Creating forms faster with Cubit or Flutter Bloc

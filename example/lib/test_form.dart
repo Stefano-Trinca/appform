@@ -30,6 +30,7 @@ class _Page extends StatelessWidget {
         FieldPassword(),
         SizedBox(height: 24),
         ButtonValidate(),
+        ButtonClear(),
       ],
     );
   }
@@ -44,7 +45,7 @@ class FieldName extends StatelessWidget {
       buildWhen: (previous, current) => (previous.name != current.name),
       builder: (context, state) {
         return TextFormField(
-          initialValue: state.name.value,
+          controller: state.name.controller,
           decoration:
               InputDecoration(hintText: 'Nome', errorText: state.name.error),
           onChanged: (value) =>
@@ -104,6 +105,18 @@ class ButtonValidate extends StatelessWidget {
     return FilledButton(
       onPressed: () => context.read<TestFormCubit>().validateForm(),
       child: const Text('Validate'),
+    );
+  }
+}
+
+class ButtonClear extends StatelessWidget {
+  const ButtonClear({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FilledButton(
+      onPressed: () => context.read<TestFormCubit>().fieldClear('name'),
+      child: const Text('Clear'),
     );
   }
 }

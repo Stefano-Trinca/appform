@@ -1,6 +1,27 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 
 import '../validators/formvalidator.dart';
+
+abstract class AppFormFieldBaseTextEditingController<T,
+        S extends AppFormFieldBaseTextEditingController<T, S>>
+    extends AppFormFieldBase<T, S> {
+  final TextEditingController controller;
+  final String Function(T value)? valueToString;
+  AppFormFieldBaseTextEditingController({
+    super.key,
+    TextEditingController? controller,
+    this.valueToString,
+    required super.value,
+    super.validators = const [],
+    super.error,
+    super.valid = false,
+  }) : controller = controller ??
+            TextEditingController(
+                text: value == null
+                    ? ''
+                    : valueToString?.call(value) ?? value.toString());
+}
 
 abstract class AppFormFieldBase<T, S extends AppFormFieldBase<T, S>>
     extends AppFormFieldInterface<T, S> {

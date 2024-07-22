@@ -1,7 +1,10 @@
 import 'package:appform/appform.dart';
 
-class AppFormFieldString extends AppFormFieldBase<String, AppFormFieldString> {
-  const AppFormFieldString({
+class AppFormFieldString
+    extends AppFormFieldBaseTextEditingController<String, AppFormFieldString> {
+  AppFormFieldString({
+    super.controller,
+    super.valueToString,
     super.key,
     required super.value,
     super.error,
@@ -10,7 +13,10 @@ class AppFormFieldString extends AppFormFieldBase<String, AppFormFieldString> {
   });
 
   @override
-  AppFormFieldString clear([String? value]) => copyWith(value: '');
+  AppFormFieldString clear([String? value]) {
+    controller.clear();
+    return copyWith(value: '');
+  }
 
   @override
   AppFormFieldString copyWith(
@@ -25,5 +31,7 @@ class AppFormFieldString extends AppFormFieldBase<String, AppFormFieldString> {
         error: error ?? this.error,
         valid: valid ?? this.valid,
         validators: validators ?? this.validators,
+        controller: controller,
+        valueToString: valueToString,
       );
 }

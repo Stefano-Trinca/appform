@@ -10,6 +10,19 @@ mixin AppFormCubit<State extends AppFormState<State>> on Cubit<State> {
     }));
   }
 
+  void fieldClear(String key, [dynamic value]) {
+    emit(state.copyWithFields({key: state.getAppFormField(key)?.clear(value)}));
+  }
+
+  void fieldClearAll() {
+    Map<String, dynamic> map = {};
+    for (var field in state.inputs) {
+      final newField = field.clear();
+      map[field.key] = newField;
+    }
+    emit(state.copyWithFields(map));
+  }
+
   StateStatus validateForm() {
     Map<String, dynamic> map = {};
     bool valid = true;

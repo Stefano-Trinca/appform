@@ -1,3 +1,6 @@
+## 0.2.7
+Add onSubmit on the AppFormConfig
+
 ## 0.2.6
 Adding the new AppFormConfig for form configuration
 

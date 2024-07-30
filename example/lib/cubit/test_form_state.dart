@@ -6,12 +6,16 @@ class TestFormState extends AppFormState<TestFormState> {
   final AppFormFieldString name;
   final AppFormFieldString email;
   final AppFormFieldString password;
+  final AppFormFieldDateTime fieldDate;
+  final AppFormFieldTimeOfDay fieldTime;
 
   TestFormState({
     this.valid = false,
     AppFormFieldString? name,
     AppFormFieldString? email,
     AppFormFieldString? password,
+    AppFormFieldDateTime? fieldDate,
+    AppFormFieldTimeOfDay? fieldTime,
     super.stateStatus,
   })  : name = name ??
             AppFormFieldString(
@@ -28,13 +32,25 @@ class TestFormState extends AppFormState<TestFormState> {
         password = password ??
             AppFormFieldString(value: '', key: 'password', validators: [
               FieldValidators.containNumber('Add at least one number')
-            ]);
+            ]),
+        fieldDate = fieldDate ??
+            const AppFormFieldDateTime(
+              key: 'date',
+              value: null,
+            ),
+        fieldTime = fieldTime ??
+            const AppFormFieldTimeOfDay(
+              key: 'time',
+              value: null,
+            );
 
   TestFormState copyWith({
     bool? valid,
     AppFormFieldString? name,
     AppFormFieldString? email,
     AppFormFieldString? password,
+    AppFormFieldDateTime? fieldDate,
+    AppFormFieldTimeOfDay? fieldTime,
     StateStatus? stateStatus,
   }) {
     return TestFormState(
@@ -42,19 +58,25 @@ class TestFormState extends AppFormState<TestFormState> {
         name: name ?? this.name,
         email: email ?? this.email,
         password: password ?? this.password,
+        fieldDate: fieldDate ?? this.fieldDate,
+        fieldTime: fieldTime ?? this.fieldTime,
         stateStatus: stateStatus ?? this.stateStatus);
   }
 
   @override
-  List<Object?> get props => [valid, name, email, password];
+  List<Object?> get props =>
+      [valid, name, email, password, fieldDate, fieldTime];
 
   @override
   TestFormState copyWithFields(Map<String, dynamic> map) => copyWith(
         name: map['name'] as AppFormFieldString?,
         email: map['email'] as AppFormFieldString?,
         password: map['password'] as AppFormFieldString?,
+        fieldDate: map['date'] as AppFormFieldDateTime?,
+        fieldTime: map['time'] as AppFormFieldTimeOfDay?,
       );
 
   @override
-  List<AppFormFieldBase> get inputs => [name, email, password];
+  List<AppFormFieldBase> get inputs =>
+      [name, email, password, fieldDate, fieldTime];
 }

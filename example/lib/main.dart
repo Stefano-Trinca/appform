@@ -11,12 +11,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Sample with AppForm',
-      theme: ThemeData.from(
-          colorScheme:
-              ColorScheme.fromSeed(seedColor: const Color(0xff572ffe))),
-      home: const HomePage(),
+    return MediaQuery(
+      data: MediaQueryData(alwaysUse24HourFormat: true),
+      child: MaterialApp(
+        title: 'Sample with AppForm',
+        theme: ThemeData.from(
+            colorScheme:
+                ColorScheme.fromSeed(seedColor: const Color(0xff572ffe))),
+        home: const HomePage(),
+      ),
     );
   }
 }

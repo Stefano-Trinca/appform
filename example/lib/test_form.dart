@@ -28,6 +28,8 @@ class _Page extends StatelessWidget {
         FieldName(),
         FieldEmail(),
         FieldPassword(),
+        TestFormFieldDate(),
+        TestFormFieldTime(),
         SizedBox(height: 24),
         ButtonValidate(),
         ButtonClear(),
@@ -91,6 +93,62 @@ class FieldPassword extends StatelessWidget {
           onChanged: (value) => context
               .read<TestFormCubit>()
               .fieldUpdate(state.password.key, value),
+        );
+      },
+    );
+  }
+}
+
+class TestFormFieldDate extends StatelessWidget {
+  const TestFormFieldDate({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<TestFormCubit, TestFormState>(
+      buildWhen: (previous, current) =>
+          (previous.fieldDate != current.fieldDate),
+      builder: (context, state) {
+        return DateTimeTextField(
+          value: state.fieldDate.value,
+          decoration: InputDecoration(
+            hintText: 'Data',
+            errorText: state.fieldDate.error,
+          ),
+          format: 'dd MMM yyyy',
+          showDateTimePicker: (context, initialDate) => showDatePicker(
+              context: context,
+              firstDate: DateTime(2023),
+              lastDate: DateTime(2025),
+              initialDate: DateTime(2024)),
+          onChanged: (value) =>
+              context.read<TestFormCubit>().fieldUpdate('date', value),
+        );
+      },
+    );
+  }
+}
+
+class TestFormFieldTime extends StatelessWidget {
+  const TestFormFieldTime({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<TestFormCubit, TestFormState>(
+      buildWhen: (previous, current) =>
+          (previous.fieldTime != current.fieldTime),
+      builder: (context, state) {
+        return TimeOfDayTextField(
+          value: state.fieldTime.value,
+          decoration: InputDecoration(
+            hintText: 'Ora',
+            errorText: state.fieldTime.error,
+          ),
+          showTimeOfDayPicker: (context, time) => showTimePicker(
+            context: context,
+            initialTime: time ?? TimeOfDay.now(),
+          ),
+          onChanged: (value) =>
+              context.read<TestFormCubit>().fieldUpdate('time', value),
         );
       },
     );

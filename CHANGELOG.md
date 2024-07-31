@@ -1,3 +1,7 @@
+## 0.2.8
+Add AppFormFieldBool
+
+
 ## 0.2.7
 Add onSubmit on the AppFormConfig
 

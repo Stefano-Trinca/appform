@@ -1,3 +1,6 @@
+## 0.2.12
+Fix updateController to update the value too
+
 ## 0.2.11
 Add updateController method to the AppFormFieldBaseTextEditingController
 Add fieldsUpdate method to  AppFormCubit

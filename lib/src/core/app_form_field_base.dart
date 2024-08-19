@@ -22,10 +22,10 @@ abstract class AppFormFieldBaseTextEditingController<T,
                     ? ''
                     : valueToString?.call(value) ?? value.toString());
 
-  void updateController(T value) {
+  S updateController(T value) {
     controller.text =
         value == null ? '' : valueToString?.call(value) ?? value.toString();
-    update(value);
+    return update(value);
   }
 }
 

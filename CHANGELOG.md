@@ -1,3 +1,6 @@
+## 0.2.10
+Add AppFormFieldIntController and AppFormFieldDoubleController for fields that required TextEditingController
+
 ## 0.2.9
 Add FocusNodeBuilder
 

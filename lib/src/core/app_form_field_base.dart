@@ -21,6 +21,11 @@ abstract class AppFormFieldBaseTextEditingController<T,
                 text: value == null
                     ? ''
                     : valueToString?.call(value) ?? value.toString());
+
+  void updateController(T value) {
+    controller.text =
+        value == null ? '' : valueToString?.call(value) ?? value.toString();
+  }
 }
 
 abstract class AppFormFieldBase<T, S extends AppFormFieldBase<T, S>>

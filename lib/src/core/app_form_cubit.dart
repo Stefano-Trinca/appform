@@ -4,6 +4,17 @@ import '../status/export.dart';
 import 'app_form_state.dart';
 
 mixin AppFormCubit<State extends AppFormState<State>> on Cubit<State> {
+  /// Update one or more fields
+  ///
+  /// use a list (key,value) for update fields
+  void fieldsUpdate(List<(String, dynamic)> keyvalues) {
+    Map<String, dynamic> map = {};
+    for (var entry in keyvalues) {
+      map[entry.$1] = map[entry.$2];
+    }
+    emit(state.copyWithFields(map));
+  }
+
   void fieldUpdate(String key, dynamic value) {
     emit(state.copyWithFields({
       key: state.getAppFormField(key)?.update(value),

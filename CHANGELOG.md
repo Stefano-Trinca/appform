@@ -1,3 +1,7 @@
+## 0.2.11
+Add updateController method to the AppFormFieldBaseTextEditingController
+Add fieldsUpdate method to  AppFormCubit
+
 ## 0.2.10
 Add AppFormFieldIntController and AppFormFieldDoubleController for fields that required TextEditingController
 
